@@ -2,29 +2,30 @@ const url = "https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=
 
 const container = document.querySelector(".name");
 
-async function callUrbanDictionary() {
+async function gamesImport() {
     try{
         const response = await fetch(url);
-        const results = await response.json();
-        const data = results.results
-        console.log(results.results);
+        const data = await response.json();
+        const games = data.results;
 
-        for(let i = 0; i < data.length; i++){
+        container.innerHTML = "";
+
+        for(let i = 0; i < games.length; i++){
             if(i === 8){
                 break;
             }
-            console.log(data[i].name);
+            
             container.innerHTML += `
             <div>
-                <h2>${data[i].name}</h2>
-                <p>Rating: ${data[i].rating}</p>
-                <p>Number of tags${data[i].tags.length}</p>
-            </div>`
+                <h2>${games[i].name}</h2>
+                <p>Rating: ${games[i].rating}</p>
+                <p>Number of tags: ${games[i].tags.length}</p>
+            </div>`;
         }
     }
     catch(error){
-        console.log("error occured", error);
+        console.log("Error occured: ", error);
     }
 };
 
-callUrbanDictionary();
+gamesImport();
